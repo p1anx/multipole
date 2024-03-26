@@ -2,6 +2,7 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+from scipy.signal import argrelextrema
 
 
 path1 = '/home/clockx/Documents/code/multipole/figure/'
@@ -545,7 +546,6 @@ def rot_multipole(Nm, d, r, path):
         sum_magnets[0,:] = sum_magnets[0,:] + Bx1
         sum_magnets[1,:] = sum_magnets[1,:] + By1
 
-
         Bxx = sum_magnets[0, :]
         Byy = sum_magnets[1, :]
 
@@ -562,18 +562,35 @@ def rot_multipole(Nm, d, r, path):
         plt.legend()
         # plt.savefig(path1 + 'Br_Btheta.png')
 
+    # ratio = (max(Br) - min(Br)) / (max(Btheta) - min(Btheta))
 
+    ratio = max(Br) / max(Btheta)
+    # Br_max_index = argrelextrema(Br, np.greater)
+    # Br_min_index = argrelextrema(Br, np.less)
+    # Btheta_max_index = argrelextrema(Btheta, np.greater)
+    # Btheta_min_index = argrelextrema(Btheta, np.less)
+    #
+    # print('brmaxindex:', Br_max_index)
+    # br_max = np.mean(Br[Br_max_index])
+    # print(br_max)
+    # br_min = np.mean(Br[Br_min_index])
+    # print(br_min)
+    # btheta_max = np.mean(Btheta[Btheta_max_index])
+    # btheta_min = np.mean(Btheta[Btheta_min_index])
+    # ratio = (br_max - br_min) / (btheta_max - btheta_min)
+    
+    print('N='+str(Nm)+' ratio=', ratio)
     plt.savefig(path + fig_name)
 
     #rotate 90 degree
     # plt.show()
 
 def experiment_multipole_N_influence():
-    path = '/home/clockx/Documents/code/multipole/figure_ratio2_influence/'
-    N = 10
-    ratio = 2
-    d = 1
-    r = d*ratio
+    path = '/home/clockx/Documents/code/multipole/figure_r_less_d_ratio0.01/'
+    N = 9
+    ratio = 0.01
+    d = 100
+    r = d * ratio
     for i in range(1,N):
         rot_multipole(i, d, r, path)
 
